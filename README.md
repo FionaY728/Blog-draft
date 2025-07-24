@@ -67,21 +67,7 @@ The model loading subsystem of SGLang—encapsulated in the `loader.py` module�
 <p align="center">
   <img src="./sglang.png" alt="./sglang.png" width="650">
 </p>
-The **SGLang Engine** (`engine.py`) serves as the primary entry point for all inference workloads—offline batch processing, synchronous/asynchronous calls, streaming scenarios, and web‑service endpoints—by abstracting process orchestration, IPC, model lifecycle management, and scheduling behind a concise Python API.
-
-## 2. Architectural Overview  
-- **TokenizerManager (Main Process)**  
-  - Performs text preprocessing and tokenization.  
-  - Dispatches tokenized requests via ZeroMQ to downstream workers.  
-- **Scheduler (Worker Subprocess)**  
-  - Batches incoming requests to maximize throughput.  
-  - Routes batches to the backend runtime and aggregates token outputs.  
-- **DetokenizerManager (Worker Subprocess)**  
-  - Reconstructs token streams into text or multimodal outputs.  
-  - Returns final payloads through the ZeroMQ response channel.  
-- **ZeroMQ IPC Layer**  
-  - Employs `zmq.asyncio` for high‑throughput, low‑latency, and reliable inter‑process communication.  
-  - Supports configurable backpressure and distributed deployment.
+The SGLang Engine (`engine.py`) serves as the primary entry point for all inference workloads—offline batch processing, synchronous/asynchronous calls, streaming scenarios, and web‑service endpoints—by abstracting process orchestration, IPC, model lifecycle management, and scheduling behind a concise Python API.
 
 Integrating SGLang into sllm‑store is predicated on aligning SGLang’s advanced asynchronous scheduling, lazy‑loading semantics, and distributed cold‑start protocols with sllm‑store’s minimalist‑deployment, high‑concurrency architecture. This confluence yields a unified inference substrate that minimizes initialization latency, maximizes throughput under heavy concurrent workloads, and defers resource instantiation—thereby maintaining near‑constant startup times without incurring appreciable runtime overhead.
 
