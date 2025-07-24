@@ -36,7 +36,7 @@ This article will walk you through the system architecture of *sllm* and aims to
 The goal is to offer a clear picture of how ServerlessLLM functions under the hood, providing insights that will help readers both understand the architecture and potentially contribute to its development.
 
 ## ServerlessLLM Click New Design
-Click’s decorator-based API, built-in color styling and interactive prompts, plus one‑line shell completion, make CLI development concise, powerful, and a delight to use.
+Model management utilities—such as loading and saving models or LoRA adapters—are currently scattered throughout the examples directory (https://github.com/ServerlessLLM/ServerlessLLM/tree/main/sllm_store/examples), making them hard to find and use; centralizing these commands would improve usability and streamline the developer experience. Click’s decorator-based API, built-in color styling and interactive prompts, plus one‑line shell completion, make CLI development concise, powerful, and a delight to use.
 
 <p align="center">
   <img src="./images/arch_overview.jpg" alt="arch_overview.jpg" width="600">
