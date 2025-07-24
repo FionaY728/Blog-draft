@@ -41,13 +41,13 @@ Just remember: before saving or loading a vLLM/sglang backend model with sllm-
 
 
 
-## Sglang
+# Sglang
 
 <p align="center">
   <img src="./images/sllm-store.jpg" alt="sllm-store.jpg" width="650">
 </p>
 
-# Fast Checkpoint Loading
+## Fast Checkpoint Loading
 
 The model loading subsystem of SGLang—encapsulated in the `loader.py` module—is architected to minimize initialization latency through a confluence of advanced techniques.
 
@@ -76,6 +76,29 @@ The model loading subsystem of SGLang—encapsulated in the `loader.py` module�
   - Modular backends for new weight formats and remote connectors  
   - “Dummy” weight generation for testing and debugging  
   - Easily adapt to emerging storage formats with minimal changes  
+
+## 1. Introduction  
+The **SGLang Engine** (`engine.py`) serves as the primary entry point for all inference workloads—offline batch processing, synchronous/asynchronous calls, streaming scenarios, and web‑service endpoints—by abstracting process orchestration, IPC, model lifecycle management, and scheduling behind a concise Python API.
+
+## 2. Architectural Overview  
+- **TokenizerManager (Main Process)**  
+  - Performs text preprocessing and tokenization.  
+  - Dispatches tokenized requests via ZeroMQ to downstream workers.  
+- **Scheduler (Worker Subprocess)**  
+  - Batches incoming requests to maximize throughput.  
+  - Routes batches to the backend runtime and aggregates token outputs.  
+- **DetokenizerManager (Worker Subprocess)**  
+  - Reconstructs token streams into text or multimodal outputs.  
+  - Returns final payloads through the ZeroMQ response channel.  
+- **ZeroMQ IPC Layer**  
+  - Employs `zmq.asyncio` for high‑throughput, low‑latency, and reliable inter‑process communication.  
+  - Supports configurable backpressure and distributed deployment.
+
+Integrating SGLang into sllm‑store is predicated on aligning SGLang’s advanced asynchronous scheduling, lazy‑loading semantics, and distributed cold‑start protocols with sllm‑store’s minimalist‑deployment, high‑concurrency architecture. This confluence yields a unified inference substrate that minimizes initialization latency, maximizes throughput under heavy concurrent workloads, and defers resource instantiation—thereby maintaining near‑constant startup times without incurring appreciable runtime overhead.
+
+
+
+
 
 
 <p align="center">
