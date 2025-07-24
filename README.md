@@ -28,7 +28,7 @@ The goal is to offer a clear picture of how ServerlessLLM functions under the ho
 Model management utilities—such as loading and saving models or LoRA adapters—are currently scattered throughout the examples directory (https://github.com/ServerlessLLM/ServerlessLLM/tree/main/sllm_store/examples), making them hard to find and use; centralizing these commands would improve usability and streamline the developer experience. Click’s decorator-based API, built-in color styling and interactive prompts, plus one‑line shell completion, make CLI development concise, powerful, and a delight to use.
 
 <p align="center">
-  <img src="./images/arch_overview.jpg" alt="arch_overview.jpg" width="600">
+  <img src="./storev1.png" alt="storev1.png" width="600">
 </p>
 
 The above figure outlines ServerlessLLM Serve, divided into three planes: user interface, control, and data.
