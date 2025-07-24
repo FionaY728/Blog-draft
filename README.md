@@ -37,35 +37,11 @@ Model management utilities—such as loading and saving models or LoRA adapters�
 - **SLLM Store -save**: selecting your HuggingFace model, backend (vLLM/Transformers/sglang), LoRA adapter, tensor parallelism, and local storage paths.
 - **SLLM Store -load** Use sllm-store load with options like --model, --backend, --adapter-name, --precision, --tensor-parallel-size and --storage-path to fetch and configure a model from the local checkpoint store.
 
-Just remember: before saving or loading a vLLM/sglang backend model with sllm-store, you need to apply the required patch to keep everything running smoothly.From here, we’ll dive into our new sglang backend that equips sllm with seamless, high‑performance support.
+Just remember: before saving or loading a vLLM/sglang backend model with sllm-store, you need to apply the required **patch** to keep everything running smoothly.From here, we’ll dive into our new sglang backend that equips sllm with seamless, high‑performance support.
 
-![image.png](./images/outlines1.png)
 
-**Step 1: Deploy an LLM**
 
-![arch_step1.jpg](./images/arch_step1.jpg)
-
-Starting with the control plane, model developers use *sllm* to deploy a model, specifying its name on the HuggingFace hub. Upon receiving the model registration request, the controller processes configurations such as backend choice (e.g., [Transformers](https://github.com/huggingface/transformers) or [vLLM](https://github.com/vllm-project/vllm)), auto-scaling settings (e.g., concurrency limits, minimum/maximum instances), and resource requirements (e.g., CPU and GPU allocation).
-
-Once configured, the controller creates a router for the model and registers its checkpoint with the store manager. The store manager determines an initial server for downloading model checkpoints, then instructs *sllm-store* to download and convert the model into the optimized format. This approach ensures the model is ready for rapid loading and minimal latency during cold starts.
-
-**Step 2: Query the LLM (Simple Case, No Cold Start)**
-
-![arch_step2.jpg](./images/arch_step2.jpg)
-
-In the data plane, when a model inference request is received, the API gateway routes it to the corresponding model router. The router selects one of the available backend instances and forwards the request. Each backend instance operates on one or more dedicated GPUs within a shared server, processing the inference request with an inference engine (such as *Transformers* or *vLLM*) and returning the result to the client.
-
-**Step 3: Query the Model with Cold Start**
-
-![arch_step3.jpg](./images/arch_step3.jpg)
-
-In a cold-start scenario, when traffic exceeds capacity, the router scales up by creating additional backend instances. It issues a resource allocation request to the storage-aware scheduler, which selects an optimal server based on model details (e.g., size), hardware specifications (e.g., PCIe and disk bandwidth), and storage status (e.g., whether the model is stored on the server’s local disks or host memory). The request router then initiates a new inference backend, which loads the model from the checkpoint store before becoming available.
-
-In summary, these steps illustrate how ServerlessLLM efficiently deploys, serves, and scales LLMs, achieving low-latency serverless inference even with frequent cold starts. The figure below illustrates the interplay between these components.
-
-![arch_full.jpg](./images/arch_full.jpg)
-
-## ServerlessLLM Store
+## Sglang
 
 <p align="center">
   <img src="./images/sllm-store.jpg" alt="sllm-store.jpg" width="650">
