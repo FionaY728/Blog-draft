@@ -22,10 +22,10 @@ This article will walk you through the system architecture of *sllm* and aims to
 - How to handle **cold start**?
 - How do we **save and load model** checkpoints?
 
-The goal is to offer a clear picture of how ServerlessLLM functions under the hood, providing insights that will help readers both understand the architecture and potentially contribute to its development.
+The goal of this summer internship is to gain a deep understanding of serverless LLM architectures and implement support for the new SGLang backend, enabling fast model checkpoint loading.
 
 ## ServerlessLLM Click New Design
-Model management utilities—such as loading and saving models or LoRA adapters—are currently scattered throughout the examples directory (https://github.com/ServerlessLLM/ServerlessLLM/tree/main/sllm_store/examples), making them hard to find and use; centralizing these commands would improve usability and streamline the developer experience. Click’s decorator-based API, built-in color styling and interactive prompts, plus one‑line shell completion, make CLI development concise, powerful, and a delight to use.
+Model management utilities—such as loading and saving models or LoRA adapters—are currently scattered throughout the examples directory (https://github.com/ServerlessLLM/ServerlessLLM/tree/main/sllm_store/examples), making them difficult to find and use. Centralising these commands would improve usability and streamline the developer experience. Click’s decorator-based API, built-in colour styling and interactive prompts, plus one‑line shell completion, make CLI development concise, powerful, and a delight to use.
 
 <p align="center">
   <img src="./storev1.png" alt="storev1.png" width="600">
@@ -34,8 +34,9 @@ Model management utilities—such as loading and saving models or LoRA adapters�
 The above figure outlines ServerlessLLM Serve, divided into three planes: user interface, control, and data.
 
 - **User Interface**: Includes a CLI for model and cluster management and an API gateway that routes control messages to the controller and inference requests to the appropriate router.
-- **Control Plane**: Contains the controller, storage-aware scheduler, and store manager, managing cluster status and model lifecycles.
-- **Data Plane**: Comprises the request router, inference backend for processing requests, and checkpoint store for efficient model loading and caching.
+- **SLLM Store -start**: Contains the controller, storage-aware scheduler, and store manager, managing cluster status and model lifecycles.
+- **SLLM Store -save**: Comprises the request router, inference backend for processing requests, and checkpoint store for efficient model loading and caching.
+- **SLLM Store -load**
 
 We’ll next walk through these planes from a user’s perspective: first deploying an LLM on the control plane, then processing an inference request on the data plane without cold-start, and finally examining the cold-start process.
 
