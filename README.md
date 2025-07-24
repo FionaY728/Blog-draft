@@ -12,7 +12,19 @@
 
 ## Introduction of SLLM Store
 
-*sllm-store* introduces an intelligent multi‑tier storage and rapid checkpoint loading mechanism that maximises storage bandwidth utilisation, ensures stable and predictable loading performance, and maintains framework‑agnostic compatibility, thereby enabling ServerlessLLM to deliver low‑latency inference on demand.
+*sllm-store* introduces an intelligent multi‑tier storage and rapid checkpoint loading mechanism that maximises storage bandwidth utilisation, ensures stable and predictable loading performance, and maintains framework‑agnostic compatibility, thereby enabling ServerlessLLM to deliver low‑latency inference on demand.We make a set of common assumptions about checkpoints:  
+
+- **Model execution files**  
+  - Describe the network architecture  
+  - Format differs by framework
+  - Define tensor sizes and shapes  
+  - Include a parallelism plan mapping tensors to GPUs (tensor0,tensor1)
+
+- **Model parameter files**  
+  - Contain the binary weights of the LLM  
+  - Tensors may be stored in any order  
+  - Some runtimes store tensor shapes as indices for offset and size calculation  
+
 
 This article will walk you through the system architecture of *sllm* and aims to answer the following questions:
 
