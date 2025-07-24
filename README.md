@@ -33,11 +33,11 @@ Model management utilities—such as loading and saving models or LoRA adapters�
 The above figure outlines ServerlessLLM Serve, divided into three planes: user interface, control, and data.
 
 - **User Interface**: Includes a CLI for model and cluster management and an API gateway that routes control messages to the controller and inference requests to the appropriate router.
-- **SLLM Store -start**: Contains the controller, storage-aware scheduler, and store manager, managing cluster status and model lifecycles.
-- **SLLM Store -save**: Comprises the request router, inference backend for processing requests, and checkpoint store for efficient model loading and caching.
-- **SLLM Store -load**
+- **SLLM Store -start**: Use sllm-store start with flags like --host, --port, --storage-path, --num-thread, --chunk-size, --mem-pool-size, --disk-size, and --registration-required to launch the checkpoint store gRPC server (e.g. sllm-store start --storage-path $PWD/models --mem-pool-size 4GB).
+- **SLLM Store -save**: selecting your HuggingFace model, backend (vLLM/Transformers/sglang), LoRA adapter, tensor parallelism, and local storage paths.
+- **SLLM Store -load** Use sllm-store load with options like --model, --backend, --adapter-name, --precision, --tensor-parallel-size and --storage-path to fetch and configure a model from the local checkpoint store.
 
-We’ll next walk through these planes from a user’s perspective: first deploying an LLM on the control plane, then processing an inference request on the data plane without cold-start, and finally examining the cold-start process.
+Just remember: before saving or loading a vLLM/sglang backend model with sllm-store, you need to apply the required patch to keep everything running smoothly.From here, we’ll dive into our new sglang backend that equips sllm with seamless, high‑performance support.
 
 ![image.png](./images/outlines1.png)
 
