@@ -53,10 +53,6 @@ The model loading subsystem of SGLang—encapsulated in the `loader.py` module�
 
 ## Features
 
-- **Multi‑Format Interoperability**  
-  - Ingests weights from HuggingFace Hub archives, `safetensors`, PyTorch `.pt`, and GGUF  
-  - Unified abstraction layer avoids bespoke conversion pipelines  
-
 - **Concurrent, Stream‑Oriented I/O**  
   - `pt_weights_iterator`, `safetensors_weights_iterator`, `np_cache_weights_iterator`  
   - Pipelined disk reads, decoding, and device transfers across multiple threads  
@@ -67,17 +63,9 @@ The model loading subsystem of SGLang—encapsulated in the `loader.py` module�
   - Applies int4, fp8, AWQ, or GPTQ quantization during load time via `QuantizationConfig`  
   - Eliminates separate quantization passes, reducing memory footprint  
 
-- **Intelligent File Pruning & Memory Pinning**  
-  - Filters out non‑essential artifacts (`filter_files_not_needed_for_inference`, `filter_duplicate_safetensors_files`)  
-  - `device_loading_context` context manager handles temporary tensor migration to target devices  
-  - Optional `pin_memory` to accelerate host‑to‑device transfers  
 
-- **Extensibility & Robustness**  
-  - Modular backends for new weight formats and remote connectors  
-  - “Dummy” weight generation for testing and debugging  
-  - Easily adapt to emerging storage formats with minimal changes  
+## 1. Introduction 
 
-## 1. Introduction  
 The **SGLang Engine** (`engine.py`) serves as the primary entry point for all inference workloads—offline batch processing, synchronous/asynchronous calls, streaming scenarios, and web‑service endpoints—by abstracting process orchestration, IPC, model lifecycle management, and scheduling behind a concise Python API.
 
 ## 2. Architectural Overview  
