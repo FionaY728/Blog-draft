@@ -43,9 +43,7 @@ Just remember: before saving or loading a vLLM/sglang backend model with sllm-
 
 # Sglang
 
-<p align="center">
-  <img src="./images/sllm-store.jpg" alt="sllm-store.jpg" width="650">
-</p>
+
 
 ## Fast Checkpoint Loading
 
@@ -65,7 +63,9 @@ The model loading subsystem of SGLang—encapsulated in the `loader.py` module�
 
 
 ## 1. Introduction 
-
+<p align="center">
+  <img src="./sglang.png" alt="./sglang.png" width="650">
+</p>
 The **SGLang Engine** (`engine.py`) serves as the primary entry point for all inference workloads—offline batch processing, synchronous/asynchronous calls, streaming scenarios, and web‑service endpoints—by abstracting process orchestration, IPC, model lifecycle management, and scheduling behind a concise Python API.
 
 ## 2. Architectural Overview  
