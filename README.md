@@ -30,7 +30,7 @@ Model management utilitiesâ€”such as loading and saving models or LoRA adaptersâ
   <img src="./storev1.png" alt="storev1.png" width="600">
 </p>
 
-The above figure outlines ServerlessLLM Serve, divided into three planes: user interface, control, and data.
+
 
 - **User Interface**: Includes a CLI for model and cluster management and an API gateway that routes control messages to the controller and inference requests to the appropriate router.
 - **SLLM Store -start**: Use sllm-store start with flags like --host, --port, --storage-path, --num-thread, --chunk-size, --mem-pool-size, --disk-size, and --registration-required to launch the checkpoint store gRPC server (e.g. sllm-store start --storage-path $PWD/models --mem-pool-size 4GB).
