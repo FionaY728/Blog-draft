@@ -47,17 +47,36 @@ Just remember: before saving or loading a vLLM/sglang backend model with sllm-
   <img src="./images/sllm-store.jpg" alt="sllm-store.jpg" width="650">
 </p>
 
-ServerlessLLM Store enables fast checkpoint loading with two core modules:
+# Fast Checkpoint Loading
 
-- A checkpoint parser that saves and restores model checkpoints in a cold-start optimized format (detailed in Step 1 below).
-- A dedicated checkpoint manager on each GPU server that loads checkpoints into GPUs efficiently and caches frequently used ones in host memory.
+The model loading subsystem of SGLang—encapsulated in the `loader.py` module—is architected to minimize initialization latency through a confluence of advanced techniques.
 
-Built on these core modules, ServerlessLLM Store offers a two-level Python API:
+## Features
 
-- A lower-level tensor API that saves and restore tensors for each specific deep learning library. For examples, PyTorch API for saving and loading a PyTorch `state_dict` .
-- A higher-level model API, built on the tensor API, that saves and loads models for inference libraries like *Transformers* and *vLLM*.
+- **Multi‑Format Interoperability**  
+  - Ingests weights from HuggingFace Hub archives, `safetensors`, PyTorch `.pt`, and GGUF  
+  - Unified abstraction layer avoids bespoke conversion pipelines  
 
-To illustrate, let’s walk through two steps: 1) saving a *Transformers* pre-trained model into the *sllm* cold-start optimized format, and 2) loading the *sllm* checkpoint to restore a *Transformers* pre-trained model.
+- **Concurrent, Stream‑Oriented I/O**  
+  - `pt_weights_iterator`, `safetensors_weights_iterator`, `np_cache_weights_iterator`  
+  - Pipelined disk reads, decoding, and device transfers across multiple threads  
+  - Overlaps computation and data movement to amortize I/O overhead  
+
+- **Tensor‑Parallel Sharding & On‑The‑Fly Quantization**  
+  - Uses `get_tensor_model_parallel_rank/size` for distributed shard loading  
+  - Applies int4, fp8, AWQ, or GPTQ quantization during load time via `QuantizationConfig`  
+  - Eliminates separate quantization passes, reducing memory footprint  
+
+- **Intelligent File Pruning & Memory Pinning**  
+  - Filters out non‑essential artifacts (`filter_files_not_needed_for_inference`, `filter_duplicate_safetensors_files`)  
+  - `device_loading_context` context manager handles temporary tensor migration to target devices  
+  - Optional `pin_memory` to accelerate host‑to‑device transfers  
+
+- **Extensibility & Robustness**  
+  - Modular backends for new weight formats and remote connectors  
+  - “Dummy” weight generation for testing and debugging  
+  - Easily adapt to emerging storage formats with minimal changes  
+
 
 <p align="center">
   <img src="./images/outlines2.png" alt="outlines2.png" width="700">
