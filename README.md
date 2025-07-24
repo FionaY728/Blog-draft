@@ -10,13 +10,13 @@
   - [Conclusion and Future Work](#conclusion-and-future-work)
 
 
-## Introduction
+## Introduction of SLLM Store
 
-ServerlessLLM (SLLM, pronounced “slim”) enables low-latency, serverless LLM inference via two core components: **sllm-serve** and **sllm-store**. **sllm-serve** is a serving platform that manages auto-scaling, load-balancing, and resource allocation for deployed LLMs across a distributed GPU cluster. *sllm-store*, built in C++, serves as a high-performance checkpoint store optimized for cold-start with efficient model loading and caching.
+*sllm-store* introduces an intelligent multi‑tier storage and rapid checkpoint loading mechanism that maximises storage bandwidth utilisation, ensures stable and predictable loading performance, and maintains framework‑agnostic compatibility, thereby enabling ServerlessLLM to deliver low‑latency inference on demand.
 
 This article will walk you through the system architecture of *sllm* and aims to answer the following questions:
 
-- What happens when we **deploy a model** in our cluster?
+- How will the new design of CLI **start,load,save** improves the usability via **Clicks**?
 - How is an **inference** request served?
 - How to handle **cold start**?
 - How do we **save and load model** checkpoints?
