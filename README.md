@@ -12,15 +12,14 @@
 
 ## Introduction of SLLM Store
 
-*sllm-store* introduces an intelligent multi‑tier storage and rapid checkpoint loading mechanism that maximises storage bandwidth utilisation, ensures stable and predictable loading performance, and maintains framework‑agnostic compatibility, thereby enabling ServerlessLLM to deliver low‑latency inference on demand.We make a set of common assumptions about checkpoints:  
+*Sllm-store* introduces an intelligent multi‑tier storage and rapid checkpoint loading mechanism that maximises storage bandwidth utilisation, ensures stable and predictable loading performance, and maintains framework‑agnostic compatibility, thereby enabling ServerlessLLM to deliver low‑latency inference on demand.We make a set of common assumptions about checkpoints:  
 
 
 This article will walk you through the system architecture of *sllm* and aims to answer the following questions:
 
 - How will the new design of CLI **start,load,save** improves the usability via **Clicks**?
-- How is an **inference** request served?
-- How to handle **cold start**?
-- How do we **save and load model** checkpoints?
+- How is the current  **sglang working**?
+- How do we **save and load model of sglang** checkpoints in sllm version?
 
 The goal of this summer internship is to gain a deep understanding of serverless LLM architectures and implement support for the new SGLang backend, enabling fast model checkpoint loading.
 
