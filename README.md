@@ -35,7 +35,8 @@ This article will walk you through the system architecture of *sllm* and aims to
 
 The goal is to offer a clear picture of how ServerlessLLM functions under the hood, providing insights that will help readers both understand the architecture and potentially contribute to its development.
 
-## ServerlessLLM Serve
+## ServerlessLLM Click New Design
+Click’s decorator-based API, built-in color styling and interactive prompts, plus one‑line shell completion, make CLI development concise, powerful, and a delight to use.
 
 <p align="center">
   <img src="./images/arch_overview.jpg" alt="arch_overview.jpg" width="600">
